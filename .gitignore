@@ -1,0 +1,9 @@
+# virtual environments
+env/
+venv/
+
+# credeintial to Google Cloud Platform
+credentials/
+
+# Pytharm
+.idea
