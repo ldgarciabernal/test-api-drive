@@ -6,11 +6,18 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 #from src.management.insert_folder import InsertFolder
-
+# good structure: https://docs.python-guide.org/writing/structure/
 # If modifying these scopes, delete the file token.pickle.
 
 
 SCOPES = ['https://www.googleapis.com/auth/drive'] # especie de permisos/ acceso del usuario
+
+def callback(request_id, response, exception):
+    if exception:
+        # Handle error
+        print(exception)
+    else:
+        print("Permission Id: %s" % response.get('id'))
 
 def main():
     """Shows basic usage of the Drive v3 API.
@@ -29,13 +36,44 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials/credentials.json', SCOPES)
+                'credentials/client_secret_855707331349-pdgs54ha5lfmfioj3j3o513g9odo9heb.apps.googleusercontent.com', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('credentials/token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
     service = build('drive', 'v3', credentials=creds)
+    """
+    file_id = '1g6qh8K7rq5G2IbtGyTaHGjymIupaNnhY'
+
+    batch = service.new_batch_http_request(callback=callback)
+    user_permission = {
+        'type': 'user',
+        'role': 'reader',
+        'emailAddress': 'luis.garcia@opinno.com'
+    }
+    perId = '07579917493837771955'
+    batch.add(service.permissions().delete(
+            fileId=file_id,
+            permissionId=perId,
+            fields='id',
+    ))
+
+    
+    'reader', 'commenter', 'writer', 'fileOrganizer', 'organizer', and 'owner'
+    Permission Id: 07579917493837771955
+    domain_permission = {
+        'type': 'domain',
+        'role': 'reader',
+        'domain': 'opinno.com'
+    }
+    batch.add(service.permissions().create(
+            fileId=file_id,
+            body=domain_permission,
+            fields='id',
+    ))
+    
+    batch.execute()
     # Call the Drive v3 API
     """
     results = service.files().list(
@@ -48,7 +86,7 @@ def main():
         print('Files:')
         for item in items:
             print(u'{0} ({1})'.format(item['name'], item['id']))
-    
+    """
     folder = InsertFolder("TEST CLASS", 'root')
     folder.add_new_folder(service)
     

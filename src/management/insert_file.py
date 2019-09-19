@@ -21,7 +21,7 @@ class insertFileIntoSpecificFolder(object):
     def add_file(cls, service, file_path):
         media = MediaFileUpload(file_path, mimetype=cls.__get_mime_type(file_path), resumable=True)
         file = service.files().create(body=cls.file_metadata, media_body=media, fields='id').execute()
-        print('File ID: %s' % file.get('id'))
+        return file.get('id')
 
     @staticmethod
     def __get_mime_type(file_path):

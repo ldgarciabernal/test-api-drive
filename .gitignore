@@ -7,3 +7,11 @@ credentials/
 
 # Pytharm
 .idea
+
+# Python
+.history/
+__pycache__/
+
+
+# Visual Studio Code
+.vscode/
