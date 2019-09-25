@@ -26,10 +26,11 @@ class ApiDriveClient(object):
 
     @classmethod
     def create_file(cls, name, folder_id, file_path):
-        file = insertFileIntoSpecificFolder(naselfme, folder_id)
+        file = insertFileIntoSpecificFolder(name, folder_id)
         file_id = file.add_file(cls.service, file_path)
         return file_id
 
     
     @classmethod
-    def set_permission_folder(cls, file_id, emails)
+    def set_permission_folder(cls, file_id, emails):
+        pass

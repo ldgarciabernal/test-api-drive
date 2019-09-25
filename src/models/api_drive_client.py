@@ -8,8 +8,6 @@ from google.auth.transport.requests import Request
 class ApiDriveClient(object):
     
     scopes = ['https://www.googleapis.com/auth/drive']
-    service = None
-    creds = None
 
     def __init__(self):
         self.__get_credentials()
@@ -17,8 +15,8 @@ class ApiDriveClient(object):
 
     @classmethod
     def __get_credentials(cls):
-        if os.path.exists('credentials/token.pickle'):
-            with open('credentials/token.pickle', 'rb') as token:
+        if os.path.exists('../credentials/token.pickle'):
+            with open('../credentials/token.pickle', 'rb') as token:
                 cls.creds = pickle.load(token)
 
         if not cls.creds or not cls.creds.valid:
@@ -26,16 +24,14 @@ class ApiDriveClient(object):
                 cls.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials/credentials.json', cls.scopes)
+                    '../credentials/credentials_secret.json', cls.scopes)
                 cls.creds = flow.run_local_server(port=0)
 
-            with open('credentials/token.pickle', 'wb') as token:
+            with open('../credentials/token.pickle', 'wb') as token:
                 pickle.dump(cls.creds, token)
 
-    @classmethod
-    def set_scopes(cls, scopes):
-        cls.scopes = scopes
+    def set_scopes(self, scopes):
+        self.scopes = scopes
 
-    @classmethod
-    def get_service(cls):
-        return cls.service
+    def get_service(self):
+        return self.service

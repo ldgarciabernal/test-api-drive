@@ -1,8 +1,17 @@
 venv:
 	virtualenv -p python3 venv
 
-init:
+packages:
 	pip install -r requirements.txt
 
-test:
+tests:
 	python -m test -h
+
+up:
+	source venv/bin/activate
+
+down:
+	deactivate
+
+run:
+	python src/main.pỳ
