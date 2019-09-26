@@ -1,11 +1,10 @@
-from src.models.api_drive_client import ApiDriveClient
+
 from src.models.folder import Files
 
 
 def main():
-    api_client = ApiDriveClient()
 
-    files_instance = Files(api_client.get_service())
+    files_instance = Files()
     new_folder_id = files_instance.create_folder('name_1')
     second_folder = files_instance.create_folder('name_2', new_folder_id)
     # file_instance = File('name_uno', '../media/photo.jpg', api_client.get_service())

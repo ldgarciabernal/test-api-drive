@@ -1,3 +1,4 @@
+
 import pickle
 import os.path
 from googleapiclient.discovery import build
@@ -7,7 +8,9 @@ from google.auth.transport.requests import Request
 
 class ApiDriveClient(object):
     
+    service = None
     scopes = ['https://www.googleapis.com/auth/drive']
+    creds = None
 
     def __init__(self):
         self.__get_credentials()
