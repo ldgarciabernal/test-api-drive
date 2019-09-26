@@ -7,10 +7,10 @@ from flask import request, Flask
 app = Flask(__name__)
 
 def authorizated():
-    # Use the client_secret.json file to identify the application requesting
+    # Use the credentials_secret.json file to identify the application requesting
     # authorization. The client ID (from that file) and access scopes are required.
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        'credentials/client_secret.json',
+        'credentials/credentials_secret.json',
         scopes=['https://www.googleapis.com/auth/drive.metadata.readonly'])
 
     # Indicate where the API server will redirect the user after the user completes
@@ -37,7 +37,7 @@ def generate_report(year):
     state = flask.session['state']    
         
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        'credentials/client_secret.json',
+        'credentials/credentials_secret.json',
         scopes=['https://www.googleapis.com/auth/youtube.force-ssl'],
         state=state)
     flow.redirect_uri = flask.url_for('oauth2callback', _external=True)

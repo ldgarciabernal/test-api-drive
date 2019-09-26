@@ -2,14 +2,16 @@
 from googleapiclient.http import MediaFileUpload
 import magic
 from src.models.api_drive_client import ApiDriveClient
+from src.models.permission import Permission
 
 
-class Files(ApiDriveClient):
+class Files(ApiDriveClient, Permission):
 
     mimeType = 'application/vnd.google-apps.folder'
 
     def __init__(self):
-        super(Files, self).__init__()
+        ApiDriveClient.__init__(self)
+        Permission.__init__(self, service=self.service)
 
     def create_folder(self, name, parent='root'):
         folder_metadata = self.__get_metadata(name, self.mimeType, parent)
@@ -34,9 +36,6 @@ class Files(ApiDriveClient):
             return None
         else:
             return items
-
-    def set_folder_permissions(self):
-        pass
 
     @staticmethod
     def __get_mime_type(file_path):
